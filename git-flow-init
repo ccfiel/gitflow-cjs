@@ -351,9 +351,9 @@ file=    use given config file
 	    if [ "$FLAGS_release" != "" ]; then
 	        default_suggestion=$(echo $FLAGS_release)
         else
-		    default_suggestion=$(git config --get --system gitflow.prefix.release || git config --get --global gitflow.prefix.release || echo release/)
+		    default_suggestion=$(git config --get --system gitflow.prefix.release || git config --get --global gitflow.prefix.release || echo stage/)
         fi
-		printf "Release branches? [$default_suggestion] "
+		printf "Stage branches? [$default_suggestion] "
 		if noflag defaults; then
 			read answer
 		else
