@@ -124,7 +124,7 @@ git_all_tags() { git for-each-ref --format='%(refname:short)' refs/tags; }
 git_last_tag() { git describe --tags --abbrev=0; }	
 git_last_tag_name() { git describe --tags --abbrev=0 | sed 's/^v//'; }
 
-git_next_tag() {
+git_next_release_tag() {
 	CURRENT_TAG=$(git describe --tags --abbrev=0; )
 	EXITCODE=$?
 	if [ "$EXITCODE" -ne "0" ]; then
@@ -136,6 +136,20 @@ git_next_tag() {
 	TAGNAME="$(IFS=.; echo "${array_tag[*]}")"
 	echo $TAGNAME
 }
+
+git_next_hoxfix_tag() {
+	CURRENT_TAG=$(git describe --tags --abbrev=0; )
+	EXITCODE=$?
+	if [ "$EXITCODE" -ne "0" ]; then
+		CURRENT_TAG="0.0.0"
+	fi
+	NUMERIC_TAG="${CURRENT_TAG//[!0-9.]/}"
+	IFS='.' read -ra array_tag <<< "$NUMERIC_TAG"
+	array_tag[2]=$((${array_tag[2]}+1))
+	TAGNAME="$(IFS=.; echo "${array_tag[*]}")"
+	echo $TAGNAME
+}
+
 
 git_local_branches_prefixed() {
 	[ -z $1 ] && die "Prefix parameter missing." # This should never happen.

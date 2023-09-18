@@ -532,7 +532,7 @@ parse_args() {
 	eval set -- "${FLAGS_ARGV}"
 
 	# Read arguments into global variables
-	VERSION=$(git_next_tag)
+	VERSION=$(git_next_release_tag)
 	# if [ -z $1 ]; then
 	# 	VERSION=''
 	# else
@@ -927,7 +927,7 @@ nodevelopmerge!  Don't back-merge develop branch
 		die $VERSION
 	fi
 
-	TAGNAME=$(git_next_tag)
+	TAGNAME=$(git_next_release_tag)
 	echo "TAGNAME: $TAGNAME"
 	# Use branch name if no tag name is given
 	# if [ "$FLAGS_tagname" != "" ]; then
