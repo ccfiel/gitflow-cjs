@@ -133,6 +133,7 @@ git_next_release_tag() {
 	NUMERIC_TAG="${CURRENT_TAG//[!0-9.]/}"
 	IFS='.' read -ra array_tag <<< "$NUMERIC_TAG"
 	array_tag[1]=$((${array_tag[1]}+1))
+	array_tag[2]=0
 	TAGNAME="$(IFS=.; echo "${array_tag[*]}")"
 	echo $TAGNAME
 }
