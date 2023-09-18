@@ -10,7 +10,7 @@
 # Updated for the fork at CJ-Systems
 
 usage() {
-	echo "Usage: [environment] igit.sh [install|uninstall] [stable|develop|version] [tag]"
+	echo "Usage: [environment] igit.sh [install|uninstall]"
 	echo "Environment:"
 	echo "   PREFIX=$PREFIX"
 	echo "   REPO_HOME=$REPO_HOME"
@@ -62,10 +62,6 @@ help)
 	exit
 	;;
 install)
-	if [ -z $2 ]; then
-		usage
-		exit
-	fi
 	echo "Installing igit to $BINDIR"
 	if [ -d "$REPO_NAME" -a -d "$REPO_NAME/.git" ] ; then
 		echo "Using existing repo: $REPO_NAME"
@@ -76,27 +72,14 @@ install)
 	cd "$REPO_NAME"
 	git pull
 	cd "$OLDPWD"
-	case "$2" in
-	stable)
-		cd "$REPO_NAME"
-		git checkout master
-		cd "$OLDPWD"
-		;;
-	develop)
-		cd "$REPO_NAME"
-		git checkout develop
-		cd "$OLDPWD"
-		;;
-	version)
-		cd "$REPO_NAME"
-		git checkout tags/$3
-		cd "$OLDPWD"
-		;;		
-	*)
-		usage
-		exit
-		;;
+
+	cd "$REPO_NAME"
+	git checkout develop
+	cd "$OLDPWD"
+	;;
+
 	esac
+
 	install -v -d -m 0755 "$PREFIX/bin"
 	install -v -d -m 0755 "$DOCDIR/hooks"
 	for exec_file in $EXEC_FILES ; do
