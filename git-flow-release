@@ -808,6 +808,34 @@ F,[no]fetch          Fetch from $ORIGIN before performing finish
 	echo
 	echo "     git flow release finish '$VERSION'"
 	echo
+
+	# publish branch
+	# Use current branch if no version is given
+	if [ "$VERSION" = "" ]; then
+		gitflow_use_current_branch_version
+	fi
+
+	# Sanity checks
+	require_clean_working_tree
+	require_branch "$BRANCH"
+	git_do fetch -q "$ORIGIN" || die "Could not fetch branch '$BRANCH' from remote '$ORIGIN'."
+	require_branch_absent "$ORIGIN/$BRANCH"
+
+	run_pre_hook "$VERSION" "$ORIGIN" "$BRANCH"
+
+	# Create remote branch with remote tracking
+	git_do push -u "$ORIGIN" "$BRANCH:$BRANCH"
+	git_do fetch -q "$ORIGIN" "$BRANCH" || die "Could not fetch branch '$BRANCH' from remote '$ORIGIN'."
+	git_do checkout "$BRANCH" || die "Could not check out branch '$BRANCH'."
+
+	run_post_hook "$VERSION" "$ORIGIN" "$BRANCH"
+
+	echo
+	echo "Summary of actions:"
+	echo "- The remote branch '$BRANCH' was created or updated"
+	echo "- The local branch '$BRANCH' was configured to track the remote branch"
+	echo "- You are now on branch '$(git_current_branch)'"
+	echo
 }
 
 cmd_finish() {
