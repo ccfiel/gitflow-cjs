@@ -90,7 +90,7 @@ if [ -f ~/.gitflow_export ]; then
 fi
 
 usage() {
-	echo "usage: git flow <subcommand>"
+	echo "usage: igit <subcommand>"
 	echo
 	echo "Available subcommands are:"
 	echo "   init      Initialize a new git repo with support for the branching model."
