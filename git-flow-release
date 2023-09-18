@@ -532,11 +532,12 @@ parse_args() {
 	eval set -- "${FLAGS_ARGV}"
 
 	# Read arguments into global variables
-	if [ -z $1 ]; then
-		VERSION=''
-	else
-		VERSION=$1
-	fi
+	VERSION=$(git_next_tag)
+	# if [ -z $1 ]; then
+	# 	VERSION=''
+	# else
+	# 	VERSION=$1
+	# fi
 	BRANCH=$PREFIX$VERSION
 }
 
@@ -588,14 +589,14 @@ nodevelopmerge!  Don't back-merge develop branch
 	DEFINE_string  'signingkey' "" "use the given GPG-key for the digital signature (implies -s)" u
 	DEFINE_string  'message' "" "use the given tag message" m
 	DEFINE_string  'messagefile' "" "use the contents of the given file as a tag message" f
-	DEFINE_boolean 'push' false "push to $ORIGIN after performing finish" p
-	DEFINE_boolean 'pushproduction' false "push the production branch"
-	DEFINE_boolean 'pushdevelop' false "push the develop branch"
-	DEFINE_boolean 'pushtag' false "push the tag"
+	DEFINE_boolean 'push' true "push to $ORIGIN after performing finish" p
+	DEFINE_boolean 'pushproduction' true "push the production branch"
+	DEFINE_boolean 'pushdevelop' true "push the develop branch"
+	DEFINE_boolean 'pushtag' true "push the tag"
 	DEFINE_boolean 'keep' false "keep branch after performing finish" k
 	DEFINE_boolean 'keepremote' false "keep the remote branch"
 	DEFINE_boolean 'keeplocal' false "keep the local branch"
-	DEFINE_boolean 'force_delete' false "force delete release branch after finish" D
+	DEFINE_boolean 'force_delete' true "force delete release branch after finish" D
 	DEFINE_boolean 'notag' false "don't tag this release" n
 	DEFINE_boolean 'nobackmerge' false "don't back-merge $MASTER_BRANCH, or tag if applicable, in $DEVELOP_BRANCH " b
 	DEFINE_boolean 'squash' false "squash release during merge" S
@@ -757,10 +758,10 @@ F,[no]fetch          Fetch from $ORIGIN before performing finish
 	gitflow_override_flag_boolean   "release.start.fetch"   "fetch"
 
 	# Parse arguments
+	echo "parse_args"
 	parse_args "$@"
 	eval set -- "${FLAGS_ARGV}"
 	base=${2:-$DEVELOP_BRANCH}
-
 	# Run filter on the version
 	VERSION=$(run_filter_hook release-start-version $VERSION)
 	if [ $? -eq 127 ]; then
@@ -845,10 +846,10 @@ nodevelopmerge!  Don't back-merge develop branch
 	DEFINE_string  'signingkey' "" "use the given GPG-key for the digital signature (implies -s)" u
 	DEFINE_string  'message' "" "use the given tag message" m
 	DEFINE_string  'messagefile' "" "use the contents of the given file as a tag message" f
-	DEFINE_boolean 'push' false "push to $ORIGIN after performing finish" p
-	DEFINE_boolean 'pushproduction' false "push the production branch"
-	DEFINE_boolean 'pushdevelop' false "push the develop branch"
-	DEFINE_boolean 'pushtag' false "push the tag"
+	DEFINE_boolean 'push' true "push to $ORIGIN after performing finish" p
+	DEFINE_boolean 'pushproduction' true "push the production branch"
+	DEFINE_boolean 'pushdevelop' true "push the develop branch"
+	DEFINE_boolean 'pushtag' true "push the tag"
 	DEFINE_boolean 'keep' false "keep branch after performing finish" k
 	DEFINE_boolean 'keepremote' false "keep the remote branch"
 	DEFINE_boolean 'keeplocal' false "keep the local branch"
@@ -898,12 +899,14 @@ nodevelopmerge!  Don't back-merge develop branch
 		die $VERSION
 	fi
 
+	TAGNAME=$(git_next_tag)
+	echo "TAGNAME: $TAGNAME"
 	# Use branch name if no tag name is given
-	if [ "$FLAGS_tagname" != "" ]; then
-		TAGNAME=$FLAGS_tagname
-	else
-		TAGNAME=$VERSION
-	fi
+	# if [ "$FLAGS_tagname" != "" ]; then
+	# 	TAGNAME=$FLAGS_tagname
+	# else
+	# 	TAGNAME=$VERSION
+	# fi
 
 	# As VERSION might have changed reset BRANCH with new VERSION
 	BRANCH=$PREFIX$VERSION
