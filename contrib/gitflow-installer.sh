@@ -10,7 +10,7 @@
 # Updated for the fork at CJ-Systems
 
 usage() {
-	echo "Usage: [environment] gitflow-installer.sh [install|uninstall] [stable|develop|version] [tag]"
+	echo "Usage: [environment] igit.sh [install|uninstall] [stable|develop|version] [tag]"
 	echo "Environment:"
 	echo "   PREFIX=$PREFIX"
 	echo "   REPO_HOME=$REPO_HOME"
@@ -24,7 +24,7 @@ if [ -z "$PREFIX" ] ; then
 fi
 
 if [ -z "$REPO_NAME" ] ; then
-	REPO_NAME="gitflow"
+	REPO_NAME="igit"
 fi
 
 if [ -z "$REPO_HOME" ] ; then
@@ -41,11 +41,11 @@ SCRIPT_FILES="git-flow-init git-flow-feature git-flow-bugfix git-flow-hotfix git
 HOOK_FILES="$REPO_NAME/hooks/*"
 
 
-echo "### git-flow no-make installer ###"
+echo "### igit no-make installer ###"
 
 case "$1" in
 uninstall)
-	echo "Uninstalling git-flow from $PREFIX"
+	echo "Uninstalling igit from $PREFIX"
 	if [ -d "$BINDIR" ] ; then
 		for script_file in $SCRIPT_FILES $EXEC_FILES ; do
 			echo "rm -vf $BINDIR/$script_file"
@@ -66,7 +66,7 @@ install)
 		usage
 		exit
 	fi
-	echo "Installing git-flow to $BINDIR"
+	echo "Installing igit to $BINDIR"
 	if [ -d "$REPO_NAME" -a -d "$REPO_NAME/.git" ] ; then
 		echo "Using existing repo: $REPO_NAME"
 	else
