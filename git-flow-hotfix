@@ -149,12 +149,12 @@ parse_args() {
 	eval set -- "${FLAGS_ARGV}"
 
 	# Read arguments into global variables
-	VERSION=$(git_next_hoxfix_tag)
-	# if [ -z $1 ]; then
-	# 	VERSION=''
-	# else
-	# 	VERSION=$1
-	# fi
+	
+	if [ -z $1 ]; then
+		VERSION=$(git_next_hoxfix_tag)
+	else
+		VERSION=$1
+	fi
 	BRANCH=$PREFIX$VERSION
 }
 
@@ -424,7 +424,7 @@ c,cherrypick          Cherry Pick to $DEVELOP_BRANCH instead of merge
 	gitflow_override_flag_boolean   "hotfix.finish.releasebackmerge"  "releasebackmerge"
 	gitflow_override_flag_boolean   "hotfix.finish.squash"            "squash"
 	gitflow_override_flag_boolean   "hotfix.finish.squash-info"       "squash_info"
-  gitflow_override_flag_string    "hotfix.finish.signingkey"        "signingkey"
+    gitflow_override_flag_string    "hotfix.finish.signingkey"        "signingkey"
 	gitflow_override_flag_string    "hotfix.finish.message"           "message"
 	gitflow_override_flag_string    "hotfix.finish.messagefile"       "messagefile"
 	gitflow_override_flag_boolean   "hotfix.finish.cherrypick"     "cherrypick"
@@ -439,14 +439,14 @@ c,cherrypick          Cherry Pick to $DEVELOP_BRANCH instead of merge
 
 	# Use branch name if no tag name is given
 	
-	TAGNAME=$(git_next_hoxfix_tag)
-	echo "TAGNAME: $TAGNAME"
+	# TAGNAME=$(git_next_hoxfix_tag)
+	# echo "TAGNAME: $TAGNAME"
 
-	# if [ "$FLAGS_tagname" != "" ]; then
-	# 	TAGNAME=$FLAGS_tagname
-	# else
-	# 	TAGNAME=$VERSION
-	# fi
+	if [ "$FLAGS_tagname" != "" ]; then
+		TAGNAME=$FLAGS_tagname
+	else
+		TAGNAME=$VERSION
+	fi
 
 	remotebranchdeleted=$FLAGS_FALSE
 	localbranchdeleted=$FLAGS_FALSE
@@ -768,8 +768,8 @@ r,[no]remote          Delete remote branch
 	local current_branch
 
 	# Define flags
-	DEFINE_boolean 'force' false "force deletion" f
-	DEFINE_boolean 'remote' false "delete remote branch" r
+	DEFINE_boolean 'force' true "force deletion" f
+	DEFINE_boolean 'remote' true "delete remote branch" r
 
 	# Override defaults with values from config
 	gitflow_override_flag_boolean   "hotfix.delete.force"    "force"
