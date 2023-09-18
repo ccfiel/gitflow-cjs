@@ -36,7 +36,7 @@ BINDIR="$EXEC_PREFIX/bin"
 DATAROOTDIR="$PREFIX/share"
 DOCDIR="$DATAROOTDIR/doc/gitflow"
 
-EXEC_FILES="git-flow"
+EXEC_FILES="igit"
 SCRIPT_FILES="git-flow-init git-flow-feature git-flow-bugfix git-flow-hotfix git-flow-release git-flow-stage git-flow-support git-flow-version gitflow-common gitflow-shFlags git-flow-config"
 HOOK_FILES="$REPO_NAME/hooks/*"
 
