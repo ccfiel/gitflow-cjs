@@ -928,7 +928,7 @@ nodevelopmerge!  Don't back-merge develop branch
 
 	# TAGNAME=$(git_next_release_tag)
 	# echo "TAGNAME: $TAGNAME"
-	Use branch name if no tag name is given
+	# Use branch name if no tag name is given
 	if [ "$FLAGS_tagname" != "" ]; then
 		TAGNAME=$FLAGS_tagname
 	else
