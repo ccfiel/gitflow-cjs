@@ -472,7 +472,7 @@ helper_finish_cleanup() {
 	localbranchdeleted=$FLAGS_FALSE
 
 	if flag push; then
-		git_do push "$ORIGIN" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
+		git_do push --force-with-lease --force-if-includes "$ORIGIN" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
 	fi
 
 	if noflag keep; then
