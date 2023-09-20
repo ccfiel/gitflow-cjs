@@ -466,10 +466,6 @@ c,cherrypick          Cherry Pick to $DEVELOP_BRANCH instead of merge
 	fi
 
 	# Use branch name if no tag name is given
-	
-	# TAGNAME=$(git_next_hoxfix_tag)
-	# echo "TAGNAME: $TAGNAME"
-
 	if [ "$FLAGS_tagname" != "" ]; then
 		TAGNAME=$FLAGS_tagname
 	else
@@ -708,7 +704,7 @@ if flag cherrypick; then
 		fi
 		git_do push "$WITH_AUTH" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
 		if noflag notag; then
-			git_do push "$WITH_AUTH" || die "Could not push tags to remote '$ORIGIN'."
+			git_do push --tags "$WITH_AUTH" || die "Could not push tags to remote '$ORIGIN'."
 		fi
 	fi
 
