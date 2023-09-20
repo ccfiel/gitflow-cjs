@@ -13,7 +13,7 @@ git-flow branching model.
 
 ## Getting started
 
-For the best introduction to get started with `git flow`, please read Jeff
+For the best introduction to get started with `igit`, please read Jeff
 Kreeftmeijer's blog post:
 
 [Using git-flow to automate your git branching workflow](https://jeffkreeftmeijer.com/git-flow/)
@@ -97,13 +97,13 @@ encouraged and invited to contribute back your modifications to the community,
 preferably in a Github fork, of course.
 
 
-## git flow usage
+## igit usage
 
 ### Initialization
 
 To initialize a new repo with the basic branch structure, use:
 
-    git flow init [-d]
+    igit init [-d]
 
 This will then interactively prompt you with some questions on which branches
 you would like to use as development and production branches, and how you
@@ -112,17 +112,17 @@ those questions to accept the (sane) default suggestions.
 
 The ``-d`` flag will accept all defaults.
 
-![Screencast git flow init](https://i.imgur.com/lFQbY5V.gif)
+![Screencast igit init](https://i.imgur.com/lFQbY5V.gif)
 
 ### Creating feature/release/hotfix/support branches
 
 * To list/start/finish/delete feature branches, use:
 
 ```shell
-git flow feature
-git flow feature start <name> [<base>]
-git flow feature finish <name>
-git flow feature delete <name>
+igit feature
+igit feature start <name> [<base>]
+igit feature finish <name>
+igit feature delete <name>
 ```
 
   For feature branches, the `<base>` arg must be a branch, when omitted it defaults to the develop branch.
@@ -130,17 +130,17 @@ git flow feature delete <name>
 * To push/pull a feature branch to the remote repository, use:
 
 ```shell
-git flow feature publish <name>
-git flow feature track <name>
+igit feature publish <name>
+igit feature track <name>
 ```
 
 * To list/start/finish/delete release branches, use:
 
 ```shell
-git flow release
-git flow release start <release> [<base>]
-git flow release finish <release>
-git flow release delete <release>
+igit release
+igit release start <release> [<base>]
+igit release finish <release>
+igit release delete <release>
 ```
 
   For release branches, the `<base>` arg must be a branch, when omitted it defaults to the develop branch.
@@ -148,10 +148,10 @@ git flow release delete <release>
 * To list/start/finish/delete hotfix branches, use:
 
 ```shell
-git flow hotfix
-git flow hotfix start <release> [<base>]
-git flow hotfix finish <release>
-git flow hotfix delete <release>
+igit hotfix
+igit hotfix start <release> [<base>]
+igit hotfix finish <release>
+igit hotfix delete <release>
 ```
 
   For hotfix branches, the `<base>` arg must be a branch, when omitted it defaults to the production branch.
@@ -159,8 +159,8 @@ git flow hotfix delete <release>
 * To list/start support branches, use:
 
 ```shell
-git flow support
-git flow support start <release> <base>
+igit support
+igit support start <release> <base>
 ```
 
   For support branches, the `<base>` arg must be a branch, when omitted it defaults to the production branch.
@@ -171,24 +171,24 @@ You can easily publish a feature you are working on. The reason can be to allow 
 
 When you want to publish a feature just use:
 ```shell
-git flow feature publish <name>
+igit feature publish <name>
 ```
 
 or, if you already are into the `feature/<name>` branch, just issue:
 ```shell
-git flow feature publish
+igit feature publish
 ```
 
 Now if you execute `git branch -avv` you will see that your branch `feature/<name>` tracks `[origin/feature/<name>]`. To track the same remote branch in another clone of the same repository use:
 ```shell
-git flow feature track <name>
+igit feature track <name>
 ```
 
 This will create a local feature `feature/<name>` that tracks the same remote branch as the original one, that is `origin/feature/<name>`.
 
-When one developer (depending on your work flow) finishes working on the feature he or she can issue `git flow feature finish <name>` and this will automatically delete the remote branch. All other developers shall then run:
+When one developer (depending on your work flow) finishes working on the feature he or she can issue `igit feature finish <name>` and this will automatically delete the remote branch. All other developers shall then run:
 ```shell
-    git flow feature delete <name>
+    igit feature delete <name>
 ```
 
 to get rid of the local feature that tracks a remote branch that no more exist.
@@ -199,12 +199,12 @@ You can publish an hotfix you are working on. The reason can be to allow other p
 
 When you want to publish an hotfix just use (as you did for features):
 ```shell
-git flow hotfix publish <name>
+igit hotfix publish <name>
 ```
 
 or, if you already are into the `hotfix/<name>` branch, just issue:
 ```shell
-git flow hotfix publish
+igit hotfix publish
 ```
 
 Other developers can now update their repositories and checkout the hotfix:
@@ -214,7 +214,7 @@ git checkout hotfix/<name>
 ```
 and eventually finish it:
 ```shell
-git flow hotfix finish
+igit hotfix finish
 ```
 
 

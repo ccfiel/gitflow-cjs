@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs during git flow release create finish
+# Runs during igit release create finish
 #
 # Positional arguments:
 # $1    Version

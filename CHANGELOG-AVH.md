@@ -92,7 +92,7 @@
 #### 1.11.0
 [Peter van der Does][petervanderdoes]
 * Bugfix: Problems when using fetch.prune
-* Bugfix: Errors when initializing git flow and useconfigonly is set but the name and/or email has not been set.
+* Bugfix: Errors when initializing igit and useconfigonly is set but the name and/or email has not been set.
 * Bugfix: Report summary on finish is incorrect.
 * Missing push on bugfix finish
 * Allow a dirty tree when starting a hotfix/support/release branch if set to do so.
@@ -101,7 +101,7 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 * Feature: Add rename command to bugfix/hotfix/feature
 
 [Andreas Heiduk][asheiduk]
-* git flow * rebase now supports rebase.autoStash flag
+* igit * rebase now supports rebase.autoStash flag
   git rebase can automatically cleanup the working tree. Therefore skip the test when and where appropriate.
 
 #### 1.10.2
@@ -139,7 +139,7 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 [Peter van der Does][petervanderdoes]
 * Add bugfix command.
 * Repositories with spaces in path cause the pre * post hook to fail.
-* Error using git flow log.
+* Error using igit log.
 * Using defaults with init fails with existing repository.
 * Allow multiple hotfix branches.
   By setting the config gitflow.multi-hotfix to true, you can have multiple
@@ -164,10 +164,10 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 * Add rebase action to release, hotfix and support.
 * Shortcut for rebase commands.
   Introduce the following new command:
-  * git flow rebase
+  * igit rebase
 
   This command will perform the action on the branch that's currently active.
-* Use the base branch when doing a git flow feature diff.
+* Use the base branch when doing a igit feature diff.
   When doing a diff on the feature branch use the base branch which this
   feature originated from. It will show the committed changes.
 * Problem when certain variables are set before executing git-flow.
@@ -191,15 +191,15 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 * Refactor the gitflow override flag functions.
 * Shortcut for finish, delete, and publish commands.
   Introduce the following new commands:
-  * git flow finish
-  * git flow delete
-  * git flow publish
+  * igit finish
+  * igit delete
+  * igit publish
 
   These commands will perform the action on the branch that's currently active.
 * No branch is needed for the following function:
-  * git flow feature publish/finish/delete
-  * git flow release publish/finish/delete
-  * git flow hotfix publish/finish/delete
+  * igit feature publish/finish/delete
+  * igit release publish/finish/delete
+  * igit hotfix publish/finish/delete
 
 * Remove base configuration when deleting a feature/hotfix/release branch.
 * Help text for certain commands is wrong.
@@ -258,7 +258,7 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 * Bugfix: Fix variable name in hotfix
 
 [Leonid Komarovsky][shpoont]
-* git flow rebase will rebase against its base branch instead of develop.
+* igit rebase will rebase against its base branch instead of develop.
 * Add flag --preserve-merges for feature rebase or feature finish.
 
 #### 1.5.1
@@ -307,7 +307,7 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
   DEVELOP_BRANCH, the branch will *NOT* be merged back into the $DEVELOP_BRANCH
   upon finishing this branch.
 * New config command.
-  git flow config base. This can be used to set and get the base for
+  igit config base. This can be used to set and get the base for
   feature/hotfix/release branches so it can be used when finishing these
   branches.
 * Get the correct working directory when the git-flow file is a symbolic link.
@@ -330,21 +330,21 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
   you are deleting the branch you currently are on.
 
 #### 1.3.1
-* Bugix: git flow config list results in error.
+* Bugix: igit config list results in error.
 
 #### 1.3.0
 [Peter van der Does][petervanderdoes]
 * Make name in feature publish optional.
-  Instead of always having to add the branch when doing a git flow feature
+  Instead of always having to add the branch when doing a igit feature
   publish, the name should be optional.
   When a name isn't given, the current branch, if it's a feature branch,
   will be published.
 * Add option to select configuration file usage
-  As with the regular git config, git flow init now has the
+  As with the regular git config, igit init now has the
   option --file, --global, --system and --local. --local is default.
 * Add a new command.
-  New command git flow config is added.
-  With this command you can see your current git flow configuration and you
+  New command igit config is added.
+  With this command you can see your current igit configuration and you
   can also set the options.
 * Environment settings for git-flow only.
   With git you can set environment variables to change behavior, like
@@ -352,7 +352,7 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
   You can add these exports to the file ~/.gitflow_export if you only want
   to set the environment variable for git-flow.
 * Bugfix: Missing command hotfix track.
-  The command git flow hotfix track is not implemented.
+  The command igit hotfix track is not implemented.
 
 #### 1.2.1
 [Peter van der Does][petervanderdoes]
@@ -362,7 +362,7 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 [Peter van der Does][petervanderdoes]
 * Improve the help output of the commands.
 * Fix problem with init function on BSD systems.
-* Add initialize function to git flow version.
+* Add initialize function to igit version.
 * Add parameter --showcommands to all commands.
   This will show the git commands performed while executing the command. Thanks
   to [Jerome Baum][jeromebaum] for the original implementation.
@@ -381,7 +381,7 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
   When finishing a release/hotfix/feature you now can keep/delete the
   local/remote release/hotfix/feature branch.
 
-* New command: git flow release branch
+* New command: igit release branch
   With this command you can directly release a given branch. There is no need
   to start a new release and finish it. You can not use this command on the
   git-flow branches feature/hotfix/release/support.
@@ -393,7 +393,7 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 
 * Make die output consistent for each die case.
 
-* Bugfix: When running git flow init an error message pops up.
+* Bugfix: When running igit init an error message pops up.
 
 * Show correct help for subactions.
   When requesting help with -h for the subactions, the help would show the
@@ -436,10 +436,10 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 * Do not finish hotfixes if they have no commits.
   A hotfix branch must have some commits and be ahead of master.
 
-* Bugfix: When running git flow version an error message pops up.
+* Bugfix: When running igit version an error message pops up.
 
 * Reorder fetch and sanity checks.
-  When a user requests a fetch for git flow {feature|hotfix|support} start, do
+  When a user requests a fetch for igit {feature|hotfix|support} start, do
   this before some sanity checks to avoid any conflict in branch names
   and/or version.
 
@@ -452,7 +452,7 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 
 [Peter Ragone][pcragone]
 * Add init to git-flow-{feature,release,hotfix,support}.
-  Fixes the relatively minor issue where 'git flow subcommand help'
+  Fixes the relatively minor issue where 'igit subcommand help'
   gives "Not a gitflow-enabled repo yet".
 
 * Special thanks to the following individual:
@@ -493,10 +493,10 @@ If the config `gitflow.allowdirty` is set to `true`, allow starting from a dirty
 #### 0.4.2-avh1
 [Peter van der Does][petervanderdoes]
 
-* Start of the git flow AVH release.
+* Start of the igit AVH release.
 
-* Adds support for the version filter in the commands `git flow release start`
-and `git flow hotfix start`
+* Adds support for the version filter in the commands `igit release start`
+and `igit hotfix start`
 
 * Adds support for hooks in various commands.
 
@@ -507,13 +507,13 @@ and `git flow hotfix start`
 #### 0.4.2
 Release date: not yet
 
-* `git flow init` now detects situations where origin already has gitflow
+* `igit init` now detects situations where origin already has gitflow
   branches set up, and behaves accordingly (thanks Emre Berge Ergenekon).
 
-* `git flow feature finish` can now be called without a feature branch
+* `igit feature finish` can now be called without a feature branch
   name(prefix) argument and will finish the current branch, if on any.
 
-* `git flow feature pull` now has a `-r` flag, to support `pull --rebase`
+* `igit feature pull` now has a `-r` flag, to support `pull --rebase`
   semantics (thanks Vedang Manerikar).
 
 * Various minor bug fixes related to internal argument passing.
@@ -527,7 +527,7 @@ Release date: not yet
 #### 0.4.1
 Release date: **2011/02/04**
 
-* New option `-d` added to `git flow init`, to initialize with defaults without
+* New option `-d` added to `igit init`, to initialize with defaults without
   asking for input interactively.  Ideal for creating git-flow enabled repos in
   custom scripts.
 
@@ -543,12 +543,12 @@ Release date: **2010/10/18**
 * The flag parsing issues of git-flow subcommands are solved for most
   platforms.
 
-* `git flow {feature,hotfix,release} finish` now takes a `-k` flag, to keep the
+* `igit {feature,hotfix,release} finish` now takes a `-k` flag, to keep the
   branch around after finishing.
 
-* `git flow release finish` takes a `-n` flag, to skip tagging.
+* `igit release finish` takes a `-n` flag, to skip tagging.
 
-* For consistency, `git flow {release,hotfix}` now, too, have a `publish` and
+* For consistency, `igit {release,hotfix}` now, too, have a `publish` and
   `track` subcommand, just like `feature`.
 
 * Various minor fixes.
@@ -557,7 +557,7 @@ Release date: **2010/10/18**
 #### 0.3
 Release date: **2010/07/22**
 
-* New subcommands for `git flow feature`:
+* New subcommands for `igit feature`:
   - **checkout**:
     For easily checking out features by their short name.  Even allows
     unique prefixes as arguments (see below).
@@ -571,15 +571,15 @@ Release date: **2010/07/22**
 * Easier addressing of branch names by using name prefixes.
   For example, when using:
 
-    git flow feature finish fo
+    igit feature finish fo
 
   this automatically finishes the feature branch `foobar` if that's the only
   feature branch name starting with `fo`.
 
 * No force flag anymore for new feature branches
-  `git flow feature start` lost its `-f` (force) flag.  You now don't
+  `igit feature start` lost its `-f` (force) flag.  You now don't
   have to be in a clean repo anymore to start a new feature branch. This
-  avoids the manual `git stash`, `git flow feature start`, `git stash
+  avoids the manual `git stash`, `igit feature start`, `git stash
   pop` cycle.
 
 * You can use `git-flow` in stand-alone repo's now.

@@ -187,6 +187,13 @@ _finish_from_develop() {
 	run_post_hook "$VERSION_PREFIX$TAGNAME" "$ORIGIN" "$BRANCH"
 
 	if flag push; then
+		access_token=$(git config --get gitflow.token)
+		if [ -n "$access_token" ]; then
+			echo "Pushing with access token"
+			GIT_URL=$(git config --get remote.origin.url)
+			ORIGIN="${GIT_URL/\:\/\//://$access_token@}"
+		fi
+
 		if flag pushdevelop; then
 			git_do push "$ORIGIN" "$DEVELOP_BRANCH" || die "Could not push branch '$DEVELOP_BRANCH' to remote '$ORIGIN'."
 		fi
@@ -378,6 +385,13 @@ _finish_base() {
 	fi
 
 	if flag push; then
+		access_token=$(git config --get gitflow.token)
+		if [ -n "$access_token" ]; then
+			echo "Pushing with access token"
+			GIT_URL=$(git config --get remote.origin.url)
+			ORIGIN="${GIT_URL/\:\/\//://$access_token@}"
+		fi
+
 		if flag pushdevelop; then
 			git_do push "$ORIGIN" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
 		fi
@@ -424,7 +438,7 @@ _finish_base() {
 initialize() {
 	require_git_repo
 	require_gitflow_initialized
-	git config --get gitflow.prefix.release >/dev/null 2>&1 || die "Release prefix not set. Please run 'git flow init'."
+	git config --get gitflow.prefix.release >/dev/null 2>&1 || die "Release prefix not set. Please run 'igit init'."
 	gitflow_load_settings
 	VERSION_PREFIX=$(git config --get gitflow.prefix.versiontag)
 	PREFIX=$(git config --get gitflow.prefix.release)
@@ -432,15 +446,15 @@ initialize() {
 
 usage() {
 		OPTIONS_SPEC="\
-git flow stage [list]
-git flow stage start
-git flow stage finish
-git flow stage branch
-git flow stage publish
-git flow stage track
-git flow stage rebase
-git flow stage delete
-git flow stage create
+igit stage [list]
+igit stage start
+igit stage finish
+igit stage branch
+igit stage publish
+igit stage track
+igit stage rebase
+igit stage delete
+igit stage create
 
 Manage your stage branches.
 
@@ -456,7 +470,7 @@ cmd_default() {
 
 cmd_list() {
 		OPTIONS_SPEC="\
-git flow stage [list] [-h] [-v]
+igit stage [list] [-h] [-v]
 
 List existing stage branches
 --
@@ -482,7 +496,7 @@ v,verbose!        verbose (more) output
 		warn ""
 		warn "You can start a new release branch:"
 		warn ""
-		warn "    git flow release start <name> [<base>]"
+		warn "    igit release start <name> [<base>]"
 		warn ""
 		exit 0
 	fi
@@ -552,7 +566,7 @@ require_no_existing_release_branches() {
 
 cmd_create() {
 	OPTIONS_SPEC="\
-git flow stage create [options] <version> [<base>]
+igit stage create [options] <version> [<base>]
 
 Create a new stage branch
 --
@@ -633,8 +647,8 @@ nodevelopmerge!  Don't back-merge develop branch
 	
 	base=${2:-$DEVELOP_BRANCH}
 
-	# Fool git flow into thinking we have a create command this allows for consistency with hook naming
-	# NOTE: this may cause a issue if we ever decide to add an actual create command to git flow
+	# Fool igit into thinking we have a create command this allows for consistency with hook naming
+	# NOTE: this may cause a issue if we ever decide to add an actual create command to igit
 	SUBCOMMAND="create"
 	SUBACTION="start"
 
@@ -740,7 +754,7 @@ nodevelopmerge!  Don't back-merge develop branch
 
 cmd_start() {
 	OPTIONS_SPEC="\
-git flow stage start [options] <version> [<base>]
+igit stage start [options] <version> [<base>]
 
 Start a new stage branch
 --
@@ -805,7 +819,7 @@ F,[no]fetch          Fetch from $ORIGIN before performing finish
 	echo "- Start committing last-minute fixes in preparing your release"
 	echo "- When done, run:"
 	echo
-	echo "     git flow stage finish '$VERSION'"
+	echo "     igit stage finish '$VERSION'"
 	echo
 
 	# publish branch
@@ -839,7 +853,7 @@ F,[no]fetch          Fetch from $ORIGIN before performing finish
 
 cmd_finish() {
 	OPTIONS_SPEC="\
-git flow stage finish [-h] [-F] [-s] [-u] [-m | -f] [-p] [-k] [-n] [-b] [-S] [-e] <version>
+igit stage finish [-h] [-F] [-s] [-u] [-m | -f] [-p] [-k] [-n] [-b] [-S] [-e] <version>
 
 
 Finish a stage branch
@@ -983,7 +997,7 @@ nodevelopmerge!  Don't back-merge develop branch
 
 cmd_branch() {
 	OPTIONS_SPEC="\
-git flow stage branch [-h] [-F] [-s] [-u] [-m] [-f] [-p] [-n] [-S] <version> [<name>]
+igit stage branch [-h] [-F] [-s] [-u] [-m] [-f] [-p] [-n] [-S] <version> [<name>]
 
 
 stage a branch [<name>], if a name is not given it defaults to the develop branch, and use the given version <version>
@@ -1116,6 +1130,12 @@ S,[no]squash 		Squash stage during merge
 	run_post_hook "$VERSION_PREFIX$VERSION" "$ORIGIN" "$BRANCH"
 
 	if flag push; then
+		access_token=$(git config --get gitflow.token)
+		if [ -n "$access_token" ]; then
+			echo "Pushing with access token"
+			GIT_URL=$(git config --get remote.origin.url)
+			ORIGIN="${GIT_URL/\:\/\//://$access_token@}"
+		fi
 		git_do push "$ORIGIN" "$MASTER_BRANCH" || die "Could not push branch '$MASTER_BRANCH' to remote '$ORIGIN'."
 		if noflag notag; then
 			git_do push --tags "$ORIGIN" || die "Could not push tags to remote '$ORIGIN'."
@@ -1141,7 +1161,7 @@ S,[no]squash 		Squash stage during merge
 
 cmd_publish() {
 	OPTIONS_SPEC="\
-git flow stage publish [-h] <name>
+igit stage publish [-h] <name>
 
 Publish the stage branch <name> on $ORIGIN
 --
@@ -1181,7 +1201,7 @@ showcommands!    Show git commands while executing them
 
 cmd_track() {
 	OPTIONS_SPEC="\
-git flow stage track [-h] <name>
+igit stage track [-h] <name>
 
 Start tracking stage <name> that is shared on $ORIGIN
 --
@@ -1216,7 +1236,7 @@ showcommands!    Show git commands while executing them
 
 cmd_rebase() {
 	OPTIONS_SPEC="\
-git flow stage rebase [-h] [-i] [-p] [<name|nameprefix>]
+igit stage rebase [-h] [-i] [-p] [<name|nameprefix>]
 
 Rebase <name> on <base_branch>
 --
@@ -1266,7 +1286,7 @@ p,[no]preserve-merges  Preserve merges
 
 cmd_delete() {
 	OPTIONS_SPEC="\
-git flow stage delete [-h] [-f] [-r] <name>
+igit stage delete [-h] [-f] [-r] <name>
 
 Delete the given stage branch
 --

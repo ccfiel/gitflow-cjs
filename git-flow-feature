@@ -41,25 +41,25 @@
 initialize() {
 	require_git_repo
 	require_gitflow_initialized
-	git config --get gitflow.prefix.feature >/dev/null 2>&1 || die "Feature prefix not set. Please run 'git flow init'."
+	git config --get gitflow.prefix.feature >/dev/null 2>&1 || die "Feature prefix not set. Please run 'igit init'."
 	gitflow_load_settings
 	PREFIX=$(git config --get gitflow.prefix.feature)
 }
 
 usage() {
 	OPTIONS_SPEC="\
-git flow feature [list]
-git flow feature start
-git flow feature finish
-git flow feature publish
-git flow feature track
-git flow feature diff
-git flow feature rebase
-git flow feature checkout
-git flow feature pull
-git flow feature delete
-git flow feature rename
-git flow feature release
+igit feature [list]
+igit feature start
+igit feature finish
+igit feature publish
+igit feature track
+igit feature diff
+igit feature rebase
+igit feature checkout
+igit feature pull
+igit feature delete
+igit feature rename
+igit feature release
 
 Manage your feature branches.
 
@@ -75,7 +75,7 @@ cmd_default() {
 
 cmd_list() {
 	OPTIONS_SPEC="\
-git flow feature [list] [-h] [-v]
+igit feature [list] [-h] [-v]
 
 Lists all the existing feature branches in the local repository.
 --
@@ -97,7 +97,7 @@ v,verbose   Verbose (more) output
 		warn ""
 		warn "You can start a new feature branch:"
 		warn ""
-		warn "    git flow feature start <name> [<base>]"
+		warn "    igit feature start <name> [<base>]"
 		warn ""
 		exit 0
 	fi
@@ -179,7 +179,7 @@ parse_remote_name() {
 
 cmd_start() {
 	OPTIONS_SPEC="\
-git flow feature start [-h] [-F] <name> [<base>]
+igit feature start [-h] [-F] <name> [<base>]
 
 Start new feature <name>, optionally basing it on <base> instead of <develop>
 --
@@ -233,13 +233,13 @@ F,[no]fetch      Fetch from origin before performing local operation
 	echo ""
 	echo "Now, start committing on your feature. When done, use:"
 	echo ""
-	echo "     git flow feature finish $NAME"
+	echo "     igit feature finish $NAME"
 	echo
 }
 
 cmd_finish() {
 	OPTIONS_SPEC="\
-git flow feature finish [-h] [-F] [-r] [-p] [-k] [-D] [-S] [--no-ff] <name|nameprefix>
+igit feature finish [-h] [-F] [-r] [-p] [-k] [-D] [-S] [--no-ff] <name|nameprefix>
 
 Finish feature <name>
 --
@@ -339,7 +339,7 @@ no-ff!                 Never fast-forward during the merge
 			echo "    git commit"
 			echo
 			echo "You can then complete the finish by running it again:"
-			echo "    git flow feature finish $NAME"
+			echo "    igit feature finish $NAME"
 			echo
 			exit 1
 		fi
@@ -379,11 +379,11 @@ no-ff!                 Never fast-forward during the merge
 		if flag showcommands; then
 			_rebase_opts="$_rebase_opts --showcommands"
 		fi
-		if ! git flow feature rebase $_rebase_opts "$NAME"; then
+		if ! igit feature rebase $_rebase_opts "$NAME"; then
 			warn "Finish was aborted due to conflicts during rebase."
 			warn "Please finish the rebase manually now."
 			warn "When finished, re-run:"
-			warn "    git flow feature finish '$NAME' '$BASE_BRANCH'"
+			warn "    igit feature finish '$NAME' '$BASE_BRANCH'"
 			exit 1
 		fi
 	fi
@@ -419,7 +419,7 @@ no-ff!                 Never fast-forward during the merge
 		echo "    git commit"
 		echo
 		echo "You can then complete the finish by running it again:"
-		echo "    git flow feature finish $NAME"
+		echo "    igit feature finish $NAME"
 		echo
 		exit 1
 	fi
@@ -433,7 +433,7 @@ no-ff!                 Never fast-forward during the merge
 
 cmd_release() {
 	OPTIONS_SPEC="\
-git flow feature release [-h]
+igit feature release [-h]
 
 Create a release based on current feature
 --
@@ -472,7 +472,13 @@ helper_finish_cleanup() {
 	localbranchdeleted=$FLAGS_FALSE
 
 	if flag push; then
-		git_do push --force-with-lease --force-if-includes "$ORIGIN" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
+		access_token=$(git config --get gitflow.token)
+		if [ -n "$access_token" ]; then
+			echo "Pushing with access token"
+			GIT_URL=$(git config --get remote.origin.url)
+			ORIGIN="${GIT_URL/\:\/\//://$access_token@}"
+		fi
+		git_do push "$ORIGIN" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
 	fi
 
 	if noflag keep; then
@@ -534,7 +540,7 @@ helper_finish_cleanup() {
 
 cmd_publish() {
 	OPTIONS_SPEC="\
-git flow feature publish [-h] [<name>]
+igit feature publish [-h] [<name>]
 
 Publish feature branch <name> on $ORIGIN.
 When <name> is omitted the current branch is used, but only if it's a feature branch.
@@ -576,7 +582,7 @@ showcommands!    Show git commands while executing them
 
 cmd_track() {
 	OPTIONS_SPEC="\
-git flow feature track [-h] <name>
+igit feature track [-h] <name>
 
 Start tracking feature <name> that is shared on $ORIGIN
 --
@@ -611,7 +617,7 @@ showcommands!    Show git commands while executing them
 
 cmd_diff() {
 	OPTIONS_SPEC="\
-git flow feature diff [-h] [<name|nameprefix>]
+igit feature diff [-h] [<name|nameprefix>]
 
 Show all changes in <name> that are not in the base
 --
@@ -636,7 +642,7 @@ showcommands!    Show git commands while executing them
 
 cmd_checkout() {
 	OPTIONS_SPEC="\
-git flow feature checkout [-h] [<name|nameprefix>]
+igit feature checkout [-h] [<name|nameprefix>]
 
 Switch to feature branch <name>
 --
@@ -660,7 +666,7 @@ cmd_co() {
 
 cmd_rebase() {
 	OPTIONS_SPEC="\
-git flow feature rebase [-h] [-i] [-p] [<name|nameprefix>]
+igit feature rebase [-h] [-i] [-p] [<name|nameprefix>]
 
 Rebase <name> on <base_branch>
 --
@@ -724,7 +730,7 @@ avoid_accidental_cross_branch_action() {
 
 cmd_pull() {
 	OPTIONS_SPEC="\
-git flow feature pull [-h] <remote> [<name>]
+igit feature pull [-h] <remote> [<name>]
 
 Pull feature <name> from <remote>
 --
@@ -736,7 +742,7 @@ showcommands!    Show git commands while executing them
 	# Define flags
 	DEFINE_boolean 'rebase' false "pull with rebase" r
 
-	warn "The command 'git flow feature pull' will be deprecated per version 2.0.0. Use 'git flow feature track' instead."
+	warn "The command 'igit feature pull' will be deprecated per version 2.0.0. Use 'igit feature track' instead."
 
 	# Parse arguments
 	parse_remote_name "$@"
@@ -793,7 +799,7 @@ showcommands!    Show git commands while executing them
 
 cmd_delete() {
 	OPTIONS_SPEC="\
-git flow feature delete [-h] [-f] [-r] <name>
+igit feature delete [-h] [-f] [-r] <name>
 
 Delete a given feature branch
 --
@@ -865,7 +871,7 @@ r,[no]remote     Delete remote branch
 
 cmd_rename() {
 	OPTIONS_SPEC="\
-git flow feature rename [<old_name>] <new_name>
+igit feature rename [<old_name>] <new_name>
 
 Rename a given feature branch
 --

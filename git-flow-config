@@ -45,9 +45,9 @@ initialize() {
 
 usage() {
 	OPTIONS_SPEC="\
-git flow config [list]
-git flow config set
-git flow config base
+igit config [list]
+igit config set
+igit config base
 
 Manage the git-flow configuration.
 
@@ -85,7 +85,7 @@ cmd_default() {
 
 cmd_list() {
 	OPTIONS_SPEC="\
-git flow config [list]
+igit config [list]
 
 Show the git-flow configurations
 --
@@ -135,7 +135,7 @@ file=     Use given config file
 
 cmd_set() {
 	OPTIONS_SPEC="\
-git flow config set <option> <value>
+igit config set <option> <value>
 
 Set the git-flow configuration option to the given value
 --
@@ -274,7 +274,7 @@ file=     Use given config file
 
 cmd_base () {
 		OPTIONS_SPEC="\
-git flow config base [<options>] <branch> [<base>]
+igit config base [<options>] <branch> [<base>]
 
 Set the given <base> for the given <branch>
 --

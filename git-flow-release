@@ -424,7 +424,7 @@ _finish_base() {
 initialize() {
 	require_git_repo
 	require_gitflow_initialized
-	git config --get gitflow.prefix.release >/dev/null 2>&1 || die "Release prefix not set. Please run 'git flow init'."
+	git config --get gitflow.prefix.release >/dev/null 2>&1 || die "Release prefix not set. Please run 'igit init'."
 	gitflow_load_settings
 	VERSION_PREFIX=$(git config --get gitflow.prefix.versiontag)
 	PREFIX=$(git config --get gitflow.prefix.release)
@@ -432,15 +432,15 @@ initialize() {
 
 usage() {
 		OPTIONS_SPEC="\
-git flow release [list]
-git flow release start
-git flow release finish
-git flow release branch
-git flow release publish
-git flow release track
-git flow release rebase
-git flow release delete
-git flow release create
+igit release [list]
+igit release start
+igit release finish
+igit release branch
+igit release publish
+igit release track
+igit release rebase
+igit release delete
+igit release create
 
 Manage your release branches.
 
@@ -456,7 +456,7 @@ cmd_default() {
 
 cmd_list() {
 		OPTIONS_SPEC="\
-git flow release [list] [-h] [-v]
+igit release [list] [-h] [-v]
 
 List existing release branches
 --
@@ -482,7 +482,7 @@ v,verbose!        verbose (more) output
 		warn ""
 		warn "You can start a new release branch:"
 		warn ""
-		warn "    git flow release start <name> [<base>]"
+		warn "    igit release start <name> [<base>]"
 		warn ""
 		exit 0
 	fi
@@ -553,7 +553,7 @@ require_no_existing_release_branches() {
 
 cmd_create() {
 	OPTIONS_SPEC="\
-git flow release create [options] <version> [<base>]
+igit release create [options] <version> [<base>]
 
 Create a new release branch
 --
@@ -634,8 +634,8 @@ nodevelopmerge!  Don't back-merge develop branch
 	
 	base=${2:-$DEVELOP_BRANCH}
 
-	# Fool git flow into thinking we have a create command this allows for consistency with hook naming
-	# NOTE: this may cause a issue if we ever decide to add an actual create command to git flow
+	# Fool igit into thinking we have a create command this allows for consistency with hook naming
+	# NOTE: this may cause a issue if we ever decide to add an actual create command to igit
 	SUBCOMMAND="create"
 	SUBACTION="start"
 
@@ -741,7 +741,7 @@ nodevelopmerge!  Don't back-merge develop branch
 
 cmd_start() {
 	OPTIONS_SPEC="\
-git flow release start [options] <version> [<base>]
+igit release start [options] <version> [<base>]
 
 Start a new release branch
 --
@@ -806,7 +806,7 @@ F,[no]fetch          Fetch from $ORIGIN before performing finish
 	echo "- Start committing last-minute fixes in preparing your release"
 	echo "- When done, run:"
 	echo
-	echo "     git flow release finish '$VERSION'"
+	echo "     igit release finish '$VERSION'"
 	echo
 
 	# publish branch
@@ -840,7 +840,7 @@ F,[no]fetch          Fetch from $ORIGIN before performing finish
 
 cmd_finish() {
 	OPTIONS_SPEC="\
-git flow release finish [-h] [-F] [-s] [-u] [-m | -f] [-p] [-k] [-n] [-b] [-S] [-e] <version>
+igit release finish [-h] [-F] [-s] [-u] [-m | -f] [-p] [-k] [-n] [-b] [-S] [-e] <version>
 
 
 Finish a release branch
@@ -984,7 +984,7 @@ nodevelopmerge!  Don't back-merge develop branch
 
 cmd_branch() {
 	OPTIONS_SPEC="\
-git flow release branch [-h] [-F] [-s] [-u] [-m] [-f] [-p] [-n] [-S] <version> [<name>]
+igit release branch [-h] [-F] [-s] [-u] [-m] [-f] [-p] [-n] [-S] <version> [<name>]
 
 
 Release a branch [<name>], if a name is not given it defaults to the develop branch, and use the given version <version>
@@ -1142,7 +1142,7 @@ S,[no]squash 		Squash release during merge
 
 cmd_publish() {
 	OPTIONS_SPEC="\
-git flow release publish [-h] <name>
+igit release publish [-h] <name>
 
 Publish the release branch <name> on $ORIGIN
 --
@@ -1182,7 +1182,7 @@ showcommands!    Show git commands while executing them
 
 cmd_track() {
 	OPTIONS_SPEC="\
-git flow release track [-h] <name>
+igit release track [-h] <name>
 
 Start tracking release <name> that is shared on $ORIGIN
 --
@@ -1217,7 +1217,7 @@ showcommands!    Show git commands while executing them
 
 cmd_rebase() {
 	OPTIONS_SPEC="\
-git flow release rebase [-h] [-i] [-p] [<name|nameprefix>]
+igit release rebase [-h] [-i] [-p] [<name|nameprefix>]
 
 Rebase <name> on <base_branch>
 --
@@ -1267,7 +1267,7 @@ p,[no]preserve-merges  Preserve merges
 
 cmd_delete() {
 	OPTIONS_SPEC="\
-git flow release delete [-h] [-f] [-r] <name>
+igit release delete [-h] [-f] [-r] <name>
 
 Delete the given release branch
 --

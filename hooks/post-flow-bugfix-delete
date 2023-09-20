@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs at the end of git flow bugfix delete
+# Runs at the end of igit bugfix delete
 #
 # Positional arguments:
 # $1    The version (including the version prefix)

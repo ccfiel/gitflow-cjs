@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs at the end of git flow release track
+# Runs at the end of igit release track
 #
 # Positional arguments:
 # $1    The friendly name of the branch

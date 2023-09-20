@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs at the end of git flow feature delete
+# Runs at the end of igit feature delete
 #
 # Positional arguments:
 # $1    The version (including the version prefix)

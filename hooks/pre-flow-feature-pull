@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs before git flow feature pull.
+# Runs before igit feature pull.
 #
 # Positional arguments:
 # $1    The friendly name of the branch

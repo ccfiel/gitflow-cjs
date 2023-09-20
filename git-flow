@@ -90,7 +90,7 @@ if [ -f ~/.gitflow_export ]; then
 fi
 
 usage() {
-	echo "usage: git flow <subcommand>"
+	echo "usage: igit <subcommand>"
 	echo
 	echo "Available subcommands are:"
 	echo "   init      Initialize a new git repo with support for the branching model."
@@ -103,7 +103,7 @@ usage() {
 	echo "   config    Manage your git-flow configuration."
 	echo "   log       Show log deviating from base branch."
 	echo
-	echo "Try 'git flow <subcommand> help' for details."
+	echo "Try 'igit <subcommand> help' for details."
 }
 
 main() {
@@ -114,7 +114,7 @@ main() {
 
 	# Use the shFlags project to parse the command line arguments
 	. "$GITFLOW_DIR/gitflow-shFlags"
-	FLAGS_PARENT="git flow"
+	FLAGS_PARENT="igit"
 
 	# Load common functionality
 	. "$GITFLOW_DIR/gitflow-common"
@@ -167,7 +167,7 @@ main() {
 
 	# Run command
 	. "$GITFLOW_DIR/git-flow-$SUBCOMMAND"
-	FLAGS_PARENT="git flow $SUBCOMMAND"
+	FLAGS_PARENT="igit $SUBCOMMAND"
 
 	if [ -z "${SUBACTION}" ]; then
 		# If the first argument is a flag, it starts with '-', we interpret this
@@ -202,7 +202,7 @@ main() {
 		initialize
 	fi
 	if [ $SUBACTION != 'default' ]; then
-		FLAGS_PARENT="git flow $SUBCOMMAND $SUBACTION"
+		FLAGS_PARENT="igit $SUBCOMMAND $SUBACTION"
 	fi
 
 	cmd_$SUBACTION "$@" "${_short_branch_name}"

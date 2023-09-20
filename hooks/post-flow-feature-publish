@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs at the end of git flow feature publish
+# Runs at the end of igit feature publish
 #
 # Positional arguments:
 # $1    The friendly name of the branch

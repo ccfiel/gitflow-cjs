@@ -41,7 +41,7 @@
 initialize() {
 	require_git_repo
 	require_gitflow_initialized
-	git config --get gitflow.prefix.support >/dev/null 2>&1 || die "Support prefix not set. Please run 'git flow init'."
+	git config --get gitflow.prefix.support >/dev/null 2>&1 || die "Support prefix not set. Please run 'igit init'."
 	gitflow_load_settings
 	VERSION_PREFIX=$(git config --get gitflow.prefix.versiontag)
 	PREFIX=$(git config --get gitflow.prefix.support)
@@ -49,9 +49,9 @@ initialize() {
 
 usage() {
 		OPTIONS_SPEC="\
-git flow support [list]
-git flow support start
-git flow support rebase
+igit support [list]
+igit support start
+igit support rebase
 
 Manage your support branches.
 
@@ -67,7 +67,7 @@ cmd_default() {
 
 cmd_list() {
 	OPTIONS_SPEC="\
-git flow support [list] [-h] [-v]
+igit support [list] [-h] [-v]
 
 List all local support branches
 --
@@ -90,7 +90,7 @@ v,verbose         Verbose (more) output
 		warn ""
 		warn "You can start a new support branch:"
 		warn ""
-		warn "    git flow support start <name> <base>"
+		warn "    igit support start <name> <base>"
 		warn ""
 		exit 0
 	fi
@@ -160,7 +160,7 @@ parse_args() {
 
 cmd_start() {
 	OPTIONS_SPEC="\
-git flow support start [-h] [-F] <version> <base>
+igit support start [-h] [-F] <version> <base>
 
 Start a new support branch name <version> based on <base>
 --
@@ -204,7 +204,7 @@ F,[no]fetch       Fetch from origin before performing finish
 
 cmd_rebase() {
 	OPTIONS_SPEC="\
-git flow support rebase [-h] [-i] [-p] [<name|nameprefix>]
+igit support rebase [-h] [-i] [-p] [<name|nameprefix>]
 
 Rebase <name> on <base_branch>
 --

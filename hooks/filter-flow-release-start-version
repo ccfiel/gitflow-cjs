@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs during git flow release start
+# Runs during igit release start
 #
 # Positional arguments:
 # $1    Version

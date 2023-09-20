@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs at the end of git flow release create start
+# Runs at the end of igit release create start
 #
 # Positional arguments:
 # $1    The version (including the version prefix)

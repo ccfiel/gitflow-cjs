@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs during git flow release finish and a tag message is given
+# Runs during igit release finish and a tag message is given
 #
 # Positional arguments:
 # $1    Message

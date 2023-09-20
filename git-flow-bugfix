@@ -41,24 +41,24 @@
 initialize() {
 	require_git_repo
 	require_gitflow_initialized
-	git config --get gitflow.prefix.bugfix >/dev/null 2>&1 || die "Bugfix prefix not set. Please run 'git flow init'."
+	git config --get gitflow.prefix.bugfix >/dev/null 2>&1 || die "Bugfix prefix not set. Please run 'igit init'."
 	gitflow_load_settings
 	PREFIX=$(git config --get gitflow.prefix.bugfix)
 }
 
 usage() {
 	OPTIONS_SPEC="\
-git flow bugfix [list]
-git flow bugfix start
-git flow bugfix finish
-git flow bugfix publish
-git flow bugfix track
-git flow bugfix diff
-git flow bugfix rebase
-git flow bugfix checkout
-git flow bugfix pull
-git flow bugfix delete
-git flow bugfix rename
+igit bugfix [list]
+igit bugfix start
+igit bugfix finish
+igit bugfix publish
+igit bugfix track
+igit bugfix diff
+igit bugfix rebase
+igit bugfix checkout
+igit bugfix pull
+igit bugfix delete
+igit bugfix rename
 
 Manage your bugfix branches.
 
@@ -74,7 +74,7 @@ cmd_default() {
 
 cmd_list() {
 	OPTIONS_SPEC="\
-git flow bugfix [list] [-h] [-v]
+igit bugfix [list] [-h] [-v]
 
 Lists all the existing bugfix branches in the local repository.
 --
@@ -96,7 +96,7 @@ v,verbose   Verbose (more) output
 		warn ""
 		warn "You can start a new bugfix branch:"
 		warn ""
-		warn "    git flow bugfix start <name> [<base>]"
+		warn "    igit bugfix start <name> [<base>]"
 		warn ""
 		exit 0
 	fi
@@ -178,7 +178,7 @@ parse_remote_name() {
 
 cmd_start() {
 	OPTIONS_SPEC="\
-git flow bugfix start [-h] [-F] <name> [<base>]
+igit bugfix start [-h] [-F] <name> [<base>]
 
 Start new bugfix <name>, optionally basing it on <base> instead of <develop>
 --
@@ -232,13 +232,13 @@ F,[no]fetch      Fetch from origin before performing local operation
 	echo ""
 	echo "Now, start committing on your bugfix. When done, use:"
 	echo ""
-	echo "     git flow bugfix finish $NAME"
+	echo "     igit bugfix finish $NAME"
 	echo
 }
 
 cmd_finish() {
 	OPTIONS_SPEC="\
-git flow bugfix finish [-h] [-F] [-r] [-p] [-k] [-D] [-S] [--no-ff] <name|nameprefix>
+igit bugfix finish [-h] [-F] [-r] [-p] [-k] [-D] [-S] [--no-ff] <name|nameprefix>
 
 Finish bugfix <name>
 --
@@ -338,7 +338,7 @@ no-ff!                 Never fast-forward during the merge
 			echo "    git commit"
 			echo
 			echo "You can then complete the finish by running it again:"
-			echo "    git flow bugfix finish $NAME"
+			echo "    igit bugfix finish $NAME"
 			echo
 			exit 1
 		fi
@@ -378,11 +378,11 @@ no-ff!                 Never fast-forward during the merge
 		if flag showcommands; then
 			_rebase_opts="$_rebase_opts --showcommands"
 		fi
-		if ! git flow bugfix rebase $_rebase_opts "$NAME"; then
+		if ! igit bugfix rebase $_rebase_opts "$NAME"; then
 			warn "Finish was aborted due to conflicts during rebase."
 			warn "Please finish the rebase manually now."
 			warn "When finished, re-run:"
-			warn "    git flow bugfix finish '$NAME' '$BASE_BRANCH'"
+			warn "    igit bugfix finish '$NAME' '$BASE_BRANCH'"
 			exit 1
 		fi
 	fi
@@ -418,7 +418,7 @@ no-ff!                 Never fast-forward during the merge
 		echo "    git commit"
 		echo
 		echo "You can then complete the finish by running it again:"
-		echo "    git flow bugfix finish $NAME"
+		echo "    igit bugfix finish $NAME"
 		echo
 		exit 1
 	fi
@@ -503,7 +503,7 @@ helper_finish_cleanup() {
 
 cmd_publish() {
 	OPTIONS_SPEC="\
-git flow bugfix publish [-h] [<name>]
+igit bugfix publish [-h] [<name>]
 
 Publish bugfix branch <name> on $ORIGIN.
 When <name> is omitted the current branch is used, but only if it's a bugfix branch.
@@ -545,7 +545,7 @@ showcommands!    Show git commands while executing them
 
 cmd_track() {
 	OPTIONS_SPEC="\
-git flow bugfix track [-h] <name>
+igit bugfix track [-h] <name>
 
 Start tracking bugfix <name> that is shared on $ORIGIN
 --
@@ -580,7 +580,7 @@ showcommands!    Show git commands while executing them
 
 cmd_diff() {
 	OPTIONS_SPEC="\
-git flow bugfix diff [-h] [<name|nameprefix>]
+igit bugfix diff [-h] [<name|nameprefix>]
 
 Show all changes in <name> that are not in the base
 --
@@ -605,7 +605,7 @@ showcommands!    Show git commands while executing them
 
 cmd_checkout() {
 	OPTIONS_SPEC="\
-git flow bugfix checkout [-h] [<name|nameprefix>]
+igit bugfix checkout [-h] [<name|nameprefix>]
 
 Switch to bugfix branch <name>
 --
@@ -629,7 +629,7 @@ cmd_co() {
 
 cmd_rebase() {
 	OPTIONS_SPEC="\
-git flow bugfix rebase [-h] [-i] [-p] [<name|nameprefix>]
+igit bugfix rebase [-h] [-i] [-p] [<name|nameprefix>]
 
 Rebase <name> on <base_branch>
 --
@@ -692,7 +692,7 @@ avoid_accidental_cross_branch_action() {
 
 cmd_pull() {
 	OPTIONS_SPEC="\
-git flow bugfix pull [-h] <remote> [<name>]
+igit bugfix pull [-h] <remote> [<name>]
 
 Pull bugfix <name> from <remote>
 --
@@ -704,7 +704,7 @@ showcommands!    Show git commands while executing them
 	# Define flags
 	DEFINE_boolean 'rebase' false "pull with rebase" r
 
-	warn "The command 'git flow bugfix pull' will be deprecated per version 2.0.0. Use 'git flow bugfix track' instead."
+	warn "The command 'igit bugfix pull' will be deprecated per version 2.0.0. Use 'igit bugfix track' instead."
 
 	# Parse arguments
 	parse_remote_name "$@"
@@ -761,7 +761,7 @@ showcommands!    Show git commands while executing them
 
 cmd_delete() {
 	OPTIONS_SPEC="\
-git flow bugfix delete [-h] [-f] [-r] <name>
+igit bugfix delete [-h] [-f] [-r] <name>
 
 Delete a given bugfix branch
 --
@@ -833,7 +833,7 @@ r,[no]remote     Delete remote branch
 
 cmd_rename() {
 	OPTIONS_SPEC="\
-git flow bugfix rename [<old_name>] <new_name>
+igit bugfix rename [<old_name>] <new_name>
 
 Rename a given bugfix branch
 --

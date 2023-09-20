@@ -47,7 +47,7 @@ initialize() {
 
 usage() {
 	OPTIONS_SPEC="\
-git flow log
+igit log
 
 shows current branch log compared to base branch
 'git help log' for arguments
@@ -68,7 +68,7 @@ cmd_default() {
 
 cmd_list() {
 	OPTIONS_SPEC="\
-git flow feature log [<options>]
+igit feature log [<options>]
 
 Show log on current branch since the fork of base branch
 Options come from git log

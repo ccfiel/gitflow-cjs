@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs before git flow release branch
+# Runs before igit release branch
 #
 # Positional arguments:
 # $1    The version (including the version prefix)

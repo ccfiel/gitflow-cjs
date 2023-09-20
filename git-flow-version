@@ -48,7 +48,7 @@ initialize() {
 
 usage() {
 	OPTIONS_SPEC="\
-git flow version
+igit version
 
 Shows version information.
 

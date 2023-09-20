@@ -1,5 +1,4 @@
-CURRENT_TAG="v0.0.2"
-NUMERIC_TAG="${CURRENT_TAG//[!0-9.]/}"
-IFS='.' read -ra array_tag <<< "$NUMERIC_TAG"
-array_tag[1]=$((${array_tag[1]}+1))
-TAGNAME="$(IFS=.; echo "${array_tag[*]}")"
+GIT_URL=$(git config --get remote.origin.url)
+access_token="1234567890"
+authenticated_git_url="${GIT_URL/\:\/\//://$access_token@}"
+echo $authenticated_git_url

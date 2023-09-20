@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs at the end of git flow feature start
+# Runs at the end of igit feature start
 #
 # Positional arguments:
 # $1    The friendly name of the branch

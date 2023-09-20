@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs at the end of git flow bugfix finish
+# Runs at the end of igit bugfix finish
 #
 # Positional arguments:
 # $1    The friendly name of the branch

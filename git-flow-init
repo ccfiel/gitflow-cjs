@@ -40,7 +40,7 @@
 
 usage() {
 	OPTIONS_SPEC="\
-git flow init
+igit init
 
 Initialize a new git repo with support for the branching model.
 
@@ -59,9 +59,9 @@ parse_args() {
 # Default entry when no SUBACTION is given
 cmd_default() {
 	OPTIONS_SPEC="\
-git flow init [-h] [-d] [-f] [-g]
+igit init [-h] [-d] [-f] [-g]
 
-Setup a git repository for git flow usage. Can also be used to start a git repository.
+Setup a git repository for igit usage. Can also be used to start a git repository.
 --
 h,help!             Show this help
 showcommands!       Show git commands while executing them
@@ -99,6 +99,7 @@ file=    use given config file
 	DEFINE_string 'hotfix' "" 'hotfix branches' x
 	DEFINE_string 'support' "" 'support branches' s
 	DEFINE_string 'tag' "" 'version tag prefix' t
+	DEFINE_string 'token' "" 'GitHub Personal Token' t
 
 	# Override defaults with values from config
 	gitflow_override_flag_boolean   "init.defaults"   "defaults"
@@ -133,10 +134,10 @@ file=    use given config file
 		git_repo_is_headless || require_clean_working_tree
 	fi
 
-	# Running git flow init on an already initialized repo is fine
+	# Running igit init on an already initialized repo is fine
 	if gitflow_is_initialized && ! flag force; then
-		warn "Already initialized for gitflow."
-		warn "To force reinitialization, use: git flow init -f"
+		warn "Already initialized for igit."
+		warn "To force reinitialization, use: igit init -f"
 		exit 0
 	fi
 
@@ -310,6 +311,26 @@ file=    use given config file
 		! git config --get gitflow.prefix.versiontag >/dev/null 2>&1; then
 		echo
 		echo "How to name your supporting branch prefixes?"
+	fi
+
+	# Token
+	if ! git config --get gitflow.token >/dev/null 2>&1 || flag force; then
+	    # if [ "$FLAGS_token" != "" ]; then
+	    #     default_suggestion=$(echo $FLAGS_feature)
+        # else
+	    # 	default_suggestion=$(git config --get --system gitflow.token || git config --get --global gitflow.token || echo "")
+		# fi
+        # fi
+		default_suggestion=$(git config --get --system gitflow.token || git config --get --global gitflow.token || echo "")
+
+		printf "GitHub Token? [$default_suggestion] "
+		if noflag defaults; then
+			read answer
+		else
+			printf "\n"
+		fi
+		[ "$answer" = "-" ] && prefix= || prefix=${answer:-$default_suggestion}
+		git_do config $gitflow_config_option gitflow.token "$prefix"
 	fi
 
 	# Feature branches

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs at the end of git flow release branch
+# Runs at the end of igit release branch
 #
 # Positional arguments:
 # $1    The version (including the version prefix)

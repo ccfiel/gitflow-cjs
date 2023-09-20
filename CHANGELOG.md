@@ -10,9 +10,9 @@
 * feat(feature): add feature release command (#64)
 * feat(hotfix): add cherrypick option to hotfix finish (#73) 
 * feat(hotfix): add  backmerge option to release branch (#71)
-* fix(hotfix): git flow hotfix finish -b still back-merges to develop (#66)
-* fix(hotfix): git flow hotfix track fails due to branch name check (#68)
-* fix: git flow log help message (#15)
+* fix(hotfix): igit hotfix finish -b still back-merges to develop (#66)
+* fix(hotfix): igit hotfix track fails due to branch name check (#68)
+* fix: igit log help message (#15)
 
 #### 2.1.0
 * feat: add create command to release allowing for a single step release prodution

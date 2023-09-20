@@ -41,7 +41,7 @@
 initialize() {
 	require_git_repo
 	require_gitflow_initialized
-	git config --get gitflow.prefix.hotfix >/dev/null 2>&1 || die "Hotfix prefix not set. Please run 'git flow init'."
+	git config --get gitflow.prefix.hotfix >/dev/null 2>&1 || die "Hotfix prefix not set. Please run 'igit init'."
 	gitflow_load_settings
 	VERSION_PREFIX=$(git config --get gitflow.prefix.versiontag)
 	PREFIX=$(git config --get gitflow.prefix.hotfix)
@@ -49,14 +49,14 @@ initialize() {
 
 usage() {
 	OPTIONS_SPEC="\
-git flow hotfix [list]
-git flow hotfix start
-git flow hotfix finish
-git flow hotfix publish
-git flow hotfix delete
-git flow hotfix rebase
-git flow hotfix track
-git flow hotfix rename
+igit hotfix [list]
+igit hotfix start
+igit hotfix finish
+igit hotfix publish
+igit hotfix delete
+igit hotfix rebase
+igit hotfix track
+igit hotfix rename
 
 Manage your hotfix branches.
 
@@ -72,7 +72,7 @@ cmd_default() {
 
 cmd_list() {
 	OPTIONS_SPEC="\
-git flow hotfix [list] [-h] [-v]
+igit hotfix [list] [-h] [-v]
 
 Lists all local hotfix branches
 --
@@ -94,7 +94,7 @@ v,verbose!        Verbose (more) output
 		warn ""
 		warn "You can start a new hotfix branch:"
 		warn ""
-		warn "    git flow hotfix start <version> [<base>]"
+		warn "    igit hotfix start <version> [<base>]"
 		warn ""
 		exit 0
 	fi
@@ -170,7 +170,7 @@ require_no_existing_hotfix_branches() {
 
 cmd_start() {
 	OPTIONS_SPEC="\
-git flow hotfix start [-h] [-F] <version> [<base>]
+igit hotfix start [-h] [-F] <version> [<base>]
 
 Start new hotfix branch named <version>, optionally base it on <base> instead of the <master> branch
 --
@@ -240,13 +240,13 @@ F,[no]fetch       Fetch from origin before performing local operation
 	echo "- Bump the version number now!"
 	echo "- When done, run:"
 	echo
-	echo "     git flow hotfix finish '$VERSION'"
+	echo "     igit hotfix finish '$VERSION'"
 	echo
 }
 
 cmd_publish() {
 	OPTIONS_SPEC="\
-git flow hotfix publish [-h] <version>
+igit hotfix publish [-h] <version>
 
 Start sharing hotfix <name> on $ORIGIN
 --
@@ -286,7 +286,7 @@ showcommands!     Show git commands while executing them
 
 cmd_rebase() {
 	OPTIONS_SPEC="\
-git flow hotfix rebase [-h] [-i] [-p] [<name|nameprefix>]
+igit hotfix rebase [-h] [-i] [-p] [<name|nameprefix>]
 
 Rebase <name> on <base_branch>
 --
@@ -336,7 +336,7 @@ p,[no]preserve-merges  Preserve merges
 
 cmd_track() {
 	OPTIONS_SPEC="\
-git flow hotfix track [-h] <version>
+igit hotfix track [-h] <version>
 
 Create a tracking hotfix branch from $ORIGIN
 --
@@ -367,7 +367,7 @@ showcommands!     Show git commands while executing them
 
 cmd_finish() {
 	OPTIONS_SPEC="\
-git flow hotfix finish [-h] [-F] [-s] [-u] [-m | -f ] [-p] [-k] [-n] [-b | -c | -r] [-S] <version>
+igit hotfix finish [-h] [-F] [-s] [-u] [-m | -f ] [-p] [-k] [-n] [-b | -c | -r] [-S] <version>
 
 Finish hotfix branch <version>
 --
@@ -562,7 +562,7 @@ if flag cherrypick; then
 =    *** If fixing the conflict results in an empty commit,
 =        you will need to run this command: 'git commit --allow-empty'
 = 4. Switch back to the hotfix branch: 'git checkout $BRANCH'
-= 5. Rerun the finish command: 'git flow hotfix finish'
+= 5. Rerun the finish command: 'igit hotfix finish'
 = OR run 'git cherry-pick --abort' to abort the cherry pick
 ===============================================================\n"
 		                        die "Cherry pick failed for commit: $commit_hash"
@@ -665,15 +665,22 @@ if flag cherrypick; then
 	run_post_hook "$VERSION_PREFIX$TAGNAME" "$ORIGIN" "$BRANCH"
 
 	if flag push; then
+		access_token=$(git config --get gitflow.token)
+		if [ -n "$access_token" ]; then
+			echo "Pushing with access token"
+			GIT_URL=$(git config --get remote.origin.url)
+			ORIGIN="${GIT_URL/\:\/\//://$access_token@}"
+		fi
+
 		if [ "$BASE_BRANCH" = "$MASTER_BRANCH" ]; then
-			git_do push --force-with-lease --force-if-includes "$ORIGIN" "$DEVELOP_BRANCH" || die "Could not push branch '$DEVELOP_BRANCH' to remote '$ORIGIN'."
+			git_do push "$ORIGIN" "$DEVELOP_BRANCH" || die "Could not push branch '$DEVELOP_BRANCH' to remote '$ORIGIN'."
 		fi
 		if [ -n "$release_branch" ]; then
-		  git_do push --force-with-lease --force-if-includes "$ORIGIN" "$release_branch" || dir "Could not push branch '$release_branch' to remote '$ORIGIN'."
+		  git_do push "$ORIGIN" "$release_branch" || dir "Could not push branch '$release_branch' to remote '$ORIGIN'."
 		fi
-		git_do push --force-with-lease --force-if-includes "$ORIGIN" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
+		git_do push "$ORIGIN" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
 		if noflag notag; then
-			git_do push --force-with-lease --force-if-includes --tags "$ORIGIN" || die "Could not push tags to remote '$ORIGIN'."
+			git_do push "$ORIGIN" || die "Could not push tags to remote '$ORIGIN'."
 		fi
 	fi
 
@@ -756,7 +763,7 @@ if flag cherrypick; then
 
 cmd_delete() {
 	OPTIONS_SPEC="\
-git flow hotfix delete [-h] [-f] [-r] <name>
+igit hotfix delete [-h] [-f] [-r] <name>
 
 Delete the given hotfix branch
 --
@@ -821,7 +828,7 @@ r,[no]remote          Delete remote branch
 
 cmd_rename() {
 	OPTIONS_SPEC="\
-git flow hotfix rename [<old_name>] <new_name>
+igit hotfix rename [<old_name>] <new_name>
 
 Rename a given hotfix branch
 --

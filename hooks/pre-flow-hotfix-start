@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Runs before git flow hotfix start
+# Runs before igit hotfix start
 #
 # Positional arguments:
 # $1    The version (including the version prefix)
