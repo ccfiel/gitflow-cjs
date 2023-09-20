@@ -99,7 +99,7 @@ file=    use given config file
 	DEFINE_string 'hotfix' "" 'hotfix branches' x
 	DEFINE_string 'support' "" 'support branches' s
 	DEFINE_string 'tag' "" 'version tag prefix' t
-	DEFINE_string 'token' "" 'GitHub Personal Token' t
+	DEFINE_string 'token' "" 'GitHub Personal Token' n
 
 	# Override defaults with values from config
 	gitflow_override_flag_boolean   "init.defaults"   "defaults"
