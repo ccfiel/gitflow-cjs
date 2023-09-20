@@ -242,6 +242,34 @@ F,[no]fetch       Fetch from origin before performing local operation
 	echo
 	echo "     igit hotfix finish '$VERSION'"
 	echo
+
+	# publish hotfix branch
+	# Use current branch if no version is given
+	if [ "$VERSION" = "" ]; then
+		gitflow_use_current_branch_version
+	fi
+
+	# Sanity checks
+	require_clean_working_tree
+	require_branch "$BRANCH"
+	git_do fetch -q "$ORIGIN" || die "Could not fetch branch '$BRANCH' from remote '$ORIGIN'."
+	require_branch_absent "$ORIGIN/$BRANCH"
+
+	run_pre_hook "$VERSION_PREFIX$VERSION" "$ORIGIN" "$BRANCH"
+
+	# Create remote branch with remote tracking
+	git_do push -u "$ORIGIN" "$BRANCH:$BRANCH"
+	git_do fetch -q "$ORIGIN" "$BRANCH" || die "Could not fetch branch '$BRANCH' from remote '$ORIGIN'."
+	git_do checkout "$BRANCH" || die "Could not check out branch '$BRANCH'."
+
+	run_post_hook "$VERSION_PREFIX$VERSION" "$ORIGIN" "$BRANCH"
+
+	echo
+	echo "Summary of actions:"
+	echo "- The remote branch '$BRANCH' was created or updated"
+	echo "- The local branch '$BRANCH' was configured to track the remote branch"
+	echo "- You are now on branch '$(git_current_branch)'"
+	echo
 }
 
 cmd_publish() {
@@ -669,18 +697,18 @@ if flag cherrypick; then
 		if [ -n "$access_token" ]; then
 			echo "Pushing with access token"
 			GIT_URL=$(git config --get remote.origin.url)
-			ORIGIN="${GIT_URL/\:\/\//://$access_token@}"
+			WITH_AUTH="${GIT_URL/\:\/\//://$access_token@}"
 		fi
 
 		if [ "$BASE_BRANCH" = "$MASTER_BRANCH" ]; then
-			git_do push "$ORIGIN" "$DEVELOP_BRANCH" || die "Could not push branch '$DEVELOP_BRANCH' to remote '$ORIGIN'."
+			git_do push "$WITH_AUTH" "$DEVELOP_BRANCH" || die "Could not push branch '$DEVELOP_BRANCH' to remote '$ORIGIN'."
 		fi
 		if [ -n "$release_branch" ]; then
-		  git_do push "$ORIGIN" "$release_branch" || dir "Could not push branch '$release_branch' to remote '$ORIGIN'."
+		  git_do push "$WITH_AUTH" "$release_branch" || dir "Could not push branch '$release_branch' to remote '$ORIGIN'."
 		fi
-		git_do push "$ORIGIN" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
+		git_do push "$WITH_AUTH" "$BASE_BRANCH" || die "Could not push branch '$BASE_BRANCH' to remote '$ORIGIN'."
 		if noflag notag; then
-			git_do push "$ORIGIN" || die "Could not push tags to remote '$ORIGIN'."
+			git_do push "$WITH_AUTH" || die "Could not push tags to remote '$ORIGIN'."
 		fi
 	fi
 
