@@ -566,6 +566,12 @@ showcommands!    Show git commands while executing them
 	run_pre_hook "$NAME" "$ORIGIN" "$BRANCH"
 
 	# Create remote branch with remote tracking
+	access_token=$(git config --get gitflow.token)
+	if [ -n "$access_token" ]; then
+		echo "Pushing with access token"
+		GIT_URL=$(git config --get remote.origin.url)
+		ORIGIN="${GIT_URL/\:\/\//://$access_token@}"
+	fi	
 	git_do push -u "$ORIGIN" "$BRANCH:$BRANCH"
 	git_do fetch -q "$ORIGIN" "$BRANCH" || die "Could not fetch branch '$BRANCH' from remote '$ORIGIN'."
 	git_do checkout "$BRANCH" || die "Could not check out branch '$BRANCH'."
