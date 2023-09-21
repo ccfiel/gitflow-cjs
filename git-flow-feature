@@ -473,6 +473,7 @@ helper_finish_cleanup() {
 
 	if flag push; then
 		access_token=$(git config --get gitflow.token)
+		OLD_ORGIN=$ORIGIN
 		if [ -n "$access_token" ]; then
 			echo "Pushing with access token"
 			GIT_URL=$(git config --get remote.origin.url)
@@ -485,7 +486,7 @@ helper_finish_cleanup() {
 
 		# Always delete remote first
 		if noflag keepremote;then
-			if git_remote_branch_exists "$ORIGIN/$BRANCH"; then
+			if git_remote_branch_exists "$OLD_ORGIN/$BRANCH"; then
 				git_remote_branch_delete "$BRANCH" && remotebranchdeleted=$FLAGS_TRUE
 			fi
 		fi
