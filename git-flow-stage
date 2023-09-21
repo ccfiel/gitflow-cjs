@@ -212,9 +212,7 @@ _finish_from_develop() {
 			git_do checkout "$MASTER_BRANCH" || die "Could not check out branch '$MASTER_BRANCH'."
 		fi
 
-		echo "git_remote_branch_exists: $ORIGIN/$BRANCH"
 		if git_remote_branch_exists "$ORIGIN/$BRANCH"; then
-			echo "git_remote_branch_exists oooo: $ORIGIN/$BRANCH"
 			git_remote_branch_delete "$BRANCH" && remotebranchdeleted=$FLAGS_TRUE
 		fi
 
