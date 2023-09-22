@@ -762,13 +762,12 @@ F,[no]fetch          Fetch from $ORIGIN before performing finish
 	local base
 
 	# Define flags
-	DEFINE_boolean 'fetch' false "fetch from $ORIGIN before performing finish" F
+	DEFINE_boolean 'fetch' true "fetch from $ORIGIN before performing finish" F
 
 	# Override defaults with values from config
 	gitflow_override_flag_boolean   "release.start.fetch"   "fetch"
 
 	# Parse arguments
-	echo "parse_args"
 	parse_args "$@"
 	eval set -- "${FLAGS_ARGV}"
 	base=${2:-$DEVELOP_BRANCH}
@@ -780,6 +779,9 @@ F,[no]fetch          Fetch from $ORIGIN before performing finish
 
 	# As VERSION might have changed reset BRANCH with new VERSION
 	BRANCH=$PREFIX$VERSION
+
+	git_do pull "$ORIGIN" "$DEVELOP_BRANCH" || die "Could not pull from remote '$DEVELOP_BRANCH' - '$ORIGIN'."
+	git_do pull "$ORIGIN" "$MASTER_BRANCH" || die "Could not push to remote '$MASTER_BRANCH' - '$ORIGIN'."
 
 	require_base_is_local_branch "$base"
 	gitflow_require_version_arg
