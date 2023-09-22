@@ -194,6 +194,7 @@ F,[no]fetch       Fetch from origin before performing local operation
 	# No need to continue if not clean
 	require_base_is_local_branch "$base"
 	git_config_bool_exists "gitflow.allowdirty" || require_clean_working_tree
+	git_do pull "$ORIGIN" "$base" || die "Could not pull from remote '$base' - '$ORIGIN'."
 
 	# Update the local repo with remote changes, if asked
 	if flag fetch; then

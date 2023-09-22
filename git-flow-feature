@@ -204,7 +204,7 @@ F,[no]fetch      Fetch from origin before performing local operation
 	gitflow_require_name_arg
 
 	# Update the local repo with remote changes, if asked
-	git_do pull "$ORIGIN" "$base" || die "Could not pull from remote '$DEVELOP_BRANCH' - '$ORIGIN'."
+	git_do pull "$ORIGIN" "$base" || die "Could not pull from remote '$base' - '$ORIGIN'."
 
 	if flag fetch; then
 		git_fetch_branch "$ORIGIN" "$base"
