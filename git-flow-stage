@@ -948,6 +948,10 @@ nodevelopmerge!  Don't back-merge develop branch
 		TAGNAME=$VERSION
 	fi
 
+	git_do pull "$ORIGIN" "$DEVELOP_BRANCH" || die "Could not pull from remote '$DEVELOP_BRANCH' - '$ORIGIN'."
+	git_do pull "$ORIGIN" "$MASTER_BRANCH" || die "Could not push to remote '$MASTER_BRANCH' - '$ORIGIN'."
+
+
 	# As VERSION might have changed reset BRANCH with new VERSION
 	BRANCH=$PREFIX$VERSION
 
